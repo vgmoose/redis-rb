@@ -2,6 +2,25 @@ module Lint
 
   module ValueTypes
 
+    def test_mexists
+      target_version "3.0.3" do
+        assert_equal false, r.exists("foo")
+        assert_equal false, r.exists("bar")
+        assert_equal false, r.exists("baz")
+
+        r.set "foo", "s1"
+        r.set "bar", "s2"
+
+        assert_equal 1, r.mexists("foo")
+
+        assert_equal 2, r.mexists("foo", "bar")
+
+        assert_equal 0, r.mexists("baz")
+
+        assert_equal 2, r.mexists("foo", "bar", "baz")
+      end
+    end
+
     def test_exists
       assert_equal false, r.exists("foo")
 
